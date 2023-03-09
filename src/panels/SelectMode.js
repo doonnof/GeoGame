@@ -4,7 +4,6 @@ import {
   Card,
   CardGrid,
   Group,
-  Panel,
   PanelHeader,
   RichCell,
 } from "@vkontakte/vkui";

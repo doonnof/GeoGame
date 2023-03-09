@@ -1,13 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import bridge from "@vkontakte/vk-bridge";
-import {
-  View,
-  AdaptivityProvider,
-  AppRoot,
-  ConfigProvider,
-  SplitLayout,
-  SplitCol,
-} from "@vkontakte/vkui";
+import { AdaptivityProvider, AppRoot, ConfigProvider } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 
 import Home from "./panels/Home";

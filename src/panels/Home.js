@@ -1,19 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Map, Panorama, Placemark, YMaps } from "react-yandex-maps";
-import {
-  Group,
-  ModalPage,
-  ModalPageHeader,
-  ModalRoot,
-  Panel,
-  PanelHeader,
-  PanelHeaderButton,
-  PanelHeaderSubmit,
-  SplitLayout,
-  View,
-} from "@vkontakte/vkui";
+import React, { useState } from "react";
+import { YMaps } from "@pbe/react-yandex-maps";
+import { Panel, View } from "@vkontakte/vkui";
 import SelectMode from "./SelectMode";
-import { Icon24Back } from "@vkontakte/icons";
 import Game from "./Game";
 
 const Home = ({ id }) => {

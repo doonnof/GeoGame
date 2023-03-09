@@ -1,14 +1,12 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export function useSubscribe(reactiveBox) {
-    const [_, forceUpdate]= useState({})
+  const [_, forceUpdate] = useState({});
 
-    useEffect(() => {
+  useEffect(() => {
+    const update = () => forceUpdate({});
+    reactiveBox.subscribe(update);
 
-        const update = () => forceUpdate({})
-        reactiveBox.subscribe(update)
-
-        return reactiveBox.unsubscribe(update)
-    },[])
-
+    return reactiveBox.unsubscribe(update);
+  }, []);
 }
