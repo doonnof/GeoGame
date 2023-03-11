@@ -1,19 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Map, useYMaps } from "@pbe/react-yandex-maps";
 
-function RegionsMap({ onClickRegion }) {
+function RegionsMap({ onClickRegion, onClearRegionRef }) {
   const [map, setMap] = useState();
 
   const onClickRegionRef = useRef(null);
+  const currentRegionIdRef = useRef(null);
+  const objectManagerRef = useRef(null);
 
   onClickRegionRef.current = onClickRegion;
   const ymaps = useYMaps(["borders", "ObjectManager"]);
-
+  const onClearRegion = () => {
+    if (currentRegionIdRef.current) {
+      objectManagerRef.current.objects.setObjectOptions(
+        currentRegionIdRef.current,
+        {
+          strokeWidth: 1,
+          fillColor: "#6ea2ff",
+        }
+      );
+    }
+  };
   useEffect(() => {
     if (!ymaps || !map) return;
-
-    let selectedRegionId;
-
+    objectManagerRef.current = new ymaps.ObjectManager();
     ymaps.borders
       .load("001", { lang: "ru", quality: 0 })
       .then((geoJSON) => {
@@ -23,37 +33,44 @@ function RegionsMap({ onClickRegion }) {
             return feature;
           });
 
-          const objectManager = new ymaps.ObjectManager();
+          objectManagerRef.current.add(features);
+          map.geoObjects.add(objectManagerRef.current);
 
-          objectManager.add(features);
-          map.geoObjects.add(objectManager);
-
-          objectManager.events
+          objectManagerRef.current.events
             .add("mouseenter", (event) => {
-              objectManager.objects.setObjectOptions(event.get("objectId"), {
-                strokeWidth: 4,
-              });
+              objectManagerRef.current.objects.setObjectOptions(
+                event.get("objectId"),
+                {
+                  strokeWidth: 4,
+                }
+              );
             })
             .add("mouseleave", (event) => {
-              objectManager.objects.setObjectOptions(event.get("objectId"), {
-                strokeWidth: 1,
-              });
+              objectManagerRef.current.objects.setObjectOptions(
+                event.get("objectId"),
+                {
+                  strokeWidth: 1,
+                }
+              );
             })
             .add("click", (event) => {
               const id = event.get("objectId");
 
-              if (selectedRegionId) {
-                objectManager.objects.setObjectOptions(selectedRegionId, {
-                  strokeWidth: 1,
-                  fillColor: "#6ea2ff",
-                });
+              if (currentRegionIdRef.current) {
+                objectManagerRef.current.objects.setObjectOptions(
+                  currentRegionIdRef.current,
+                  {
+                    strokeWidth: 1,
+                    fillColor: "#6ea2ff",
+                  }
+                );
               }
 
-              objectManager.objects.setObjectOptions(id, {
+              objectManagerRef.current.objects.setObjectOptions(id, {
                 strokeWidth: 2,
                 fillColor: "#3B3781",
               });
-              selectedRegionId = id;
+              currentRegionIdRef.current = id;
 
               onClickRegionRef.current(id);
             });
@@ -61,6 +78,9 @@ function RegionsMap({ onClickRegion }) {
       })
       .catch((error) => console.log(error));
   }, [map, ymaps]);
+  useEffect(() => {
+    onClearRegionRef.current = onClearRegion;
+  }, []);
 
   return (
     <Map
