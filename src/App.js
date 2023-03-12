@@ -7,7 +7,6 @@ import Home from "./panels/Home";
 
 const App = () => {
   const [scheme, setScheme] = useState("bright_light");
-  const [activePanel, setActivePanel] = useState("home");
 
   useEffect(() => {
     bridge.subscribe(({ detail: { type, data } }) => {

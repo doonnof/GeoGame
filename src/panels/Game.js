@@ -26,7 +26,7 @@ const rounds = [
   },
 ];
 
-function Game() {
+function Game(props) {
   const onClearRegionRef = useRef(null);
   const [currentRound, setCurrentRound] = useState(0);
   const [isFinish, setIsFinish] = useState(false);
@@ -34,18 +34,20 @@ function Game() {
   useEffect(() => {
     if (currentRound === rounds.length - 1) {
       setIsFinish(true);
+    }
+    if (currentRound === rounds.length) {
       console.log(rounds);
+      props.goToPanel3();
+      props.setRounds(rounds);
     }
   }, [currentRound]);
   const forceUpdate = useForceUpdate();
-  console.log(onClearRegionRef);
   return (
     <>
       <PanelHeader>Игра епт)</PanelHeader>
       <RegionsMap
         onClearRegionRef={onClearRegionRef}
         onClickRegion={(id) => {
-          console.log(id);
           currentRoundItem.answer = id;
           forceUpdate();
         }}
@@ -56,6 +58,7 @@ function Game() {
         onClick={() => {
           onClearRegionRef.current();
           setCurrentRound(currentRound + 1);
+          console.log(currentRoundItem.answer);
         }}
       >
         {isFinish ? "Закончить" : "Ответить"}
