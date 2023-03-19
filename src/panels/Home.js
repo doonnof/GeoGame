@@ -3,6 +3,8 @@ import { YMaps } from "@pbe/react-yandex-maps";
 import { Panel, PanelHeader, View } from "@vkontakte/vkui";
 import SelectMode from "./SelectMode";
 import Game from "./Game";
+import { countries } from "../data/countries";
+import Flag from "../components/Flag";
 
 const Home = ({ id }) => {
   const [activePanel, setActivePanel] = useState("panel1");
@@ -27,9 +29,33 @@ const Home = ({ id }) => {
           <PanelHeader>Результатик{"<3"}</PanelHeader>
           <div>
             {rounds.map((item) => {
+              const foundAnswer = countries.find(
+                (countryItem) => countryItem.iso3166 === item.answer
+              );
+              const foundAsk = countries.find(
+                (countryItem) => countryItem.iso3166 === item.ask
+              );
+
               return (
-                <div key={item.answer}>
-                  {item.answer}:{item.ask}
+                <div
+                  key={item.ask}
+                  style={{ display: "flex", alignItems: "center", gap: 6 }}
+                >
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <Flag
+                      iso3166={foundAsk.iso3166}
+                      style={{ width: 30, height: 10 }}
+                    ></Flag>
+                    {foundAsk.name}
+                  </div>
+                  --
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <Flag
+                      iso3166={foundAnswer.iso3166}
+                      style={{ width: 30, height: 10 }}
+                    ></Flag>
+                    {foundAnswer.name}
+                  </div>
                 </div>
               );
             })}
