@@ -1,4 +1,4 @@
-import { Button, PanelHeader } from "@vkontakte/vkui";
+import { Button, Card, PanelHeader, Snackbar } from "@vkontakte/vkui";
 import React, { useEffect, useRef, useState } from "react";
 import RegionsMap from "../components/RegionsMap";
 import { useForceUpdate } from "../hooks/useForceUpdate";
@@ -52,11 +52,29 @@ function Game(props) {
       props.setRounds(rounds);
     }
   }, [currentRound]);
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+  }, []);
+
   const forceUpdate = useForceUpdate();
   return (
     <>
       <PanelHeader>Игрулечка</PanelHeader>
+      <Card
+        mode="shadow"
+        style={{
+          zIndex: "3000",
+          height: "64px",
+          position: "fixed",
+          width: "calc(100% - 32px)",
+          top: "68px",
+          left: "50%",
+          transform: "translate(-50%)",
+        }}
+      ></Card>
       <RegionsMap
+        height={"100vh"}
         onClearRegionRef={onClearRegionRef}
         onClickRegion={(id) => {
           currentRoundItem.answer = id;
@@ -65,6 +83,15 @@ function Game(props) {
       ></RegionsMap>
       {currentRound + 1}/{rounds.length}
       <Button
+        size="l"
+        style={{
+          position: "fixed",
+          width: "calc(100% - 32px)",
+          bottom: "12px",
+          left: "50%",
+          transform: "translate(-50%)",
+          zIndex: "3000",
+        }}
         disabled={!currentRoundItem?.answer}
         onClick={() => {
           onClearRegionRef.current();

@@ -6,40 +6,72 @@ import {
   Group,
   PanelHeader,
   RichCell,
+  Title,
+  Text,
+  Caption,
+  Div,
 } from "@vkontakte/vkui";
 import { Icon96GoodsCollection } from "@vkontakte/icons";
 import React from "react";
+import { IconCountry } from "../components/IconCountry";
+import { IconRegion } from "../components/IconRegion";
 
 function SelectMode(props) {
   return (
     <>
-      <PanelHeader>Выбор режима</PanelHeader>
-      <Group>
-        <Group mode="plain">
-          <CardGrid size="l">
-            <Card mode="shadow" onClick={props.goToPanel2}>
-              <RichCell
-                before={<Icon96GoodsCollection />}
-                caption="блаблаблабла блаблабла блаблабла блаблаблаблаблабла блаблабла  бла бла блабла блаблабла блабла"
-                actions={
-                  <ButtonGroup
-                    style={{ flexDirection: "row-reverse" }}
-                    stretched
-                  >
-                    <Button mode="primary" size="s">
-                      Играть
-                    </Button>
-                  </ButtonGroup>
-                }
-                multiline
-                disabled
+      <PanelHeader>GeoGame</PanelHeader>
+
+      <CardGrid size="l" spaced>
+        <Card mode="shadow">
+          <CardGrid size="l" spaced>
+            <Title level="1" style={{ marginBottom: 16 }}>
+              Выберите режим
+            </Title>
+            <Card onClick={props.goToPanel2}>
+              <Div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  padding: "20px 0px 0px",
+                  gap: "6px",
+                  paddingBottom: "20px",
+                }}
               >
-                Одиночный режим
-              </RichCell>
+                <IconCountry></IconCountry>
+                <Title level="2">Страны</Title>
+                <Text
+                  weight="3"
+                  style={{ color: "var(--vkui--color_icon_medium)" }}
+                >
+                  Вам предстоит угадывать страны???
+                </Text>
+              </Div>
+            </Card>
+            <Card>
+              <Div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  padding: "20px 0px 0px",
+                  gap: "6px",
+                  paddingBottom: "20px",
+                }}
+              >
+                <IconRegion></IconRegion>
+                <Title level="2">Регионы</Title>
+                <Text
+                  weight="3"
+                  style={{ color: "var(--vkui--color_icon_medium)" }}
+                >
+                  Вам предстоит угадывать страны???
+                </Text>
+              </Div>
             </Card>
           </CardGrid>
-        </Group>
-      </Group>
+        </Card>
+      </CardGrid>
     </>
   );
 }

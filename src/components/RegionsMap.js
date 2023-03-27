@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Map, useYMaps } from "@pbe/react-yandex-maps";
 
-function RegionsMap({ onClickRegion, onClearRegionRef }) {
+function RegionsMap({ onClickRegion, onClearRegionRef, height }) {
   const [map, setMap] = useState();
 
   const onClickRegionRef = useRef(null);
@@ -85,6 +85,7 @@ function RegionsMap({ onClickRegion, onClearRegionRef }) {
   return (
     <Map
       width="100%"
+      height={height}
       instanceRef={setMap}
       defaultState={{ center: [55.751574, 37.573856], zoom: 1, type: null }}
     />
