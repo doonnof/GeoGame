@@ -1,17 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardGrid,
-  Group,
-  PanelHeader,
-  RichCell,
-  Title,
-  Text,
-  Caption,
-  Div,
-} from "@vkontakte/vkui";
-import { Icon96GoodsCollection } from "@vkontakte/icons";
+import { Card, CardGrid, Div, PanelHeader, Text, Title } from "@vkontakte/vkui";
 import React from "react";
 import { IconCountry } from "../components/IconCountry";
 import { IconRegion } from "../components/IconRegion";
@@ -44,7 +31,7 @@ function SelectMode(props) {
                   weight="3"
                   style={{ color: "var(--vkui--color_icon_medium)" }}
                 >
-                  Вам предстоит угадывать страны???
+                  Вам предстоит угадывать страны
                 </Text>
               </Div>
             </Card>
@@ -65,7 +52,7 @@ function SelectMode(props) {
                   weight="3"
                   style={{ color: "var(--vkui--color_icon_medium)" }}
                 >
-                  Вам предстоит угадывать страны???
+                  Вам предстоит угадывать страны
                 </Text>
               </Div>
             </Card>
