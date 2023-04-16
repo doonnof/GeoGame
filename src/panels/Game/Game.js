@@ -11,46 +11,28 @@ import RegionsMap from "../components/RegionsMap";
 import { useForceUpdate } from "../hooks/useForceUpdate";
 import { countries } from "../data/countries";
 import Flag from "../components/Flag";
+import { useSubscribe } from "../hooks/useSubscribe";
 
-function generateRounds() {
-  return countries
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 5)
-    .map((item) => {
-      return { ask: item.iso3166, answer: null };
-    });
-}
-function Game(props) {
-  const [rounds] = useState(() => {
-    return generateRounds();
-  });
+function Game({ gameModel }) {
+  useSubscribe(
+    gameModel.currentRound$,
+    gameModel.isFinish$,
+    gameModel.isErrorAsk$,
+    gameModel.isSuccess$
+  );
+
+  const rounds = gameModel.rounds;
+  const isFinish = gameModel.isFinish$.get();
+  const currentRound = gameModel.currentRound$.get();
+
   const onClearRegionRef = useRef(null);
   const onSelectErrorRef = useRef(null);
   const onSelectSuccessRef = useRef(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [currentRound, setCurrentRound] = useState(0);
-  const [isFinish, setIsFinish] = useState(false);
-  const currentRoundItem = rounds[currentRound];
-
-  useEffect(() => {
-    if (currentRound === rounds.length - 1) {
-      setIsFinish(true);
-    }
-    if (currentRound === rounds.length) {
-      props.goToPanel3();
-      props.setRounds(rounds);
-    }
-  }, [currentRound]);
-
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-  }, []);
-
-  const isTrueAnswer = currentRoundItem?.answer === currentRoundItem?.ask;
-
   const forceUpdate = useForceUpdate();
+
   return (
     <>
       <ModalRoot activeModal={isOpen}>
@@ -58,11 +40,13 @@ function Game(props) {
           style={{ zIndex: 4000 }}
           id
           header={
-            isTrueAnswer ? "Ваш ответ правильный!" : "Ваш ответ неправильный!"
+            gameModel.isTrueAnswer()
+              ? "Ваш ответ правильный!"
+              : "Ваш ответ неправильный!"
           }
           icon={
             <>
-              {isTrueAnswer ? (
+              {gameModel.isTrueAnswer() ? (
                 <svg
                   width="56"
                   height="56"
@@ -112,14 +96,14 @@ function Game(props) {
               size="l"
               onClick={() => {
                 setIsOpen(false);
-                setCurrentRound(currentRound + 1);
+                gameModel.nextRound();
                 onClearRegionRef.current();
               }}
             >
               {isFinish ? "Завершить" : "Следующий раунд"}
             </Button>
           }
-        ></ModalCard>
+        />
       </ModalRoot>
       <PanelHeader>Игрулечка</PanelHeader>
       <Card
@@ -146,17 +130,14 @@ function Game(props) {
               }}
             >
               <Flag
-                iso3166={currentRoundItem?.ask}
+                iso3166={currentRound?.ask}
                 style={{ width: 96, height: "100%", borderRadius: "6px" }}
-              ></Flag>
+              />
             </div>
           }
           caption={`Раунд: ${currentRound + 1}/${rounds.length}`}
         >
-          {
-            countries.find((item) => item.iso3166 === currentRoundItem?.ask)
-              ?.name
-          }
+          {countries.find((item) => item.iso3166 === currentRound?.ask)?.name}
         </RichCell>
       </Card>
       <RegionsMap
@@ -166,10 +147,10 @@ function Game(props) {
         onSelectErrorRef={onSelectErrorRef}
         onSelectSuccessRef={onSelectSuccessRef}
         onClickRegion={(id) => {
-          currentRoundItem.answer = id;
+          currentRound.answer = id;
           forceUpdate();
         }}
-      ></RegionsMap>
+      />
 
       <div
         style={{
@@ -185,13 +166,11 @@ function Game(props) {
       >
         <Button
           size="l"
-          style={{
-            width: "100%",
-          }}
-          disabled={!currentRoundItem?.answer || isOpen}
+          style={{ width: "100%" }}
+          disabled={!currentRound?.answer || isOpen}
           onClick={() => {
-            if (currentRoundItem.answer !== currentRoundItem.ask) {
-              onSelectErrorRef.current(currentRoundItem.ask);
+            if (currentRound.answer !== currentRound.ask) {
+              onSelectErrorRef.current(currentRound.ask);
             } else {
               onSelectSuccessRef.current();
             }
