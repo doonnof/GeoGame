@@ -8,14 +8,6 @@ export const countries = [
     hintContent: "Монако",
   },
   {
-    iso3166: "AB",
-    name: "Абхазия",
-    level: "2",
-    parents: [],
-    neighbors: ["GE", "RU"],
-    hintContent: "Абхазия",
-  },
-  {
     iso3166: "AD",
     name: "Андорра",
     level: "2",
@@ -86,19 +78,6 @@ export const countries = [
     parents: [],
     neighbors: ["CL", "PY", "BR", "UY", "BO"],
     hintContent: "Аргентина",
-  },
-  {
-    iso3166: "AS",
-    name: "Американское Самоа",
-    level: "2",
-    parents: [
-      {
-        delta: -2,
-        iso3166: "US",
-      },
-    ],
-    neighbors: [],
-    hintContent: "Американское Самоа",
   },
   {
     iso3166: "AT",

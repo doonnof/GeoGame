@@ -1,0 +1,16 @@
+.card {
+    z-index: 3000;
+    height: 82px;
+    position: fixed;
+    width: calc(100% - 32px);
+    top: 68px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.flagContainer {
+    border-radius: 6px;
+    width: 96px;
+    height: 64px;
+    border: 1px solid var(--vkui--color_image_border_alpha);
+}

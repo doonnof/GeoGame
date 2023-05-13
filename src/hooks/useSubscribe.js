@@ -1,12 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useForceUpdate } from "./useForceUpdate";
 
-export function useSubscribe(reactiveBox) {
-  const [_, forceUpdate] = useState({});
+/**
+ * Хук для подписки на события
+ * @param {...Subject} subjects Список объектов событий
+ * @return {void}
+ */
+export function useSubscribe(...subjects) {
+  /**
+   * Функция обновления состояния
+   * @type {Function}
+   */
+  const forceUpdate = useForceUpdate();
 
   useEffect(() => {
-    const update = () => forceUpdate({});
-    reactiveBox.subscribe(update);
+    /**
+     * Функция отписки от событий
+     * @type {Function[]}
+     */
+    const unsubscribes = subjects.map((subject) =>
+      subject?.subscribe(forceUpdate)
+    );
 
-    return reactiveBox.unsubscribe(update);
+    return () => {
+      unsubscribes.forEach((unsubscribe) => unsubscribe && unsubscribe());
+    };
   }, []);
 }

@@ -1,11 +1,20 @@
-import { Card, CardGrid, Div, PanelHeader, Text, Title } from "@vkontakte/vkui";
 import React from "react";
+import {
+  Card,
+  CardGrid,
+  Div,
+  PanelHeader,
+  Text,
+  Title,
+  Panel,
+} from "@vkontakte/vkui";
+
 import { IconCountry } from "../components/IconCountry";
 import { IconRegion } from "../components/IconRegion";
 
-function SelectMode(props) {
+function SelectMode({ id, goToPanel2, selectMapModel }) {
   return (
-    <>
+    <Panel id={id}>
       <PanelHeader>GeoGame</PanelHeader>
 
       <CardGrid size="l" spaced>
@@ -14,7 +23,13 @@ function SelectMode(props) {
             <Title level="1" style={{ marginBottom: 16 }}>
               Выберите режим
             </Title>
-            <Card onClick={props.goToPanel2}>
+            <Card
+              onClick={() => {
+                selectMapModel.mapType = "001";
+                selectMapModel.mapZoom = 1;
+                goToPanel2();
+              }}
+            >
               <Div
                 style={{
                   display: "flex",
@@ -25,7 +40,7 @@ function SelectMode(props) {
                   paddingBottom: "20px",
                 }}
               >
-                <IconCountry></IconCountry>
+                <IconCountry />
                 <Title level="2">Страны</Title>
                 <Text
                   weight="3"
@@ -35,7 +50,13 @@ function SelectMode(props) {
                 </Text>
               </Div>
             </Card>
-            <Card>
+            <Card
+              onClick={() => {
+                selectMapModel.mapType = "RU";
+                selectMapModel.mapZoom = 2;
+                goToPanel2();
+              }}
+            >
               <Div
                 style={{
                   display: "flex",
@@ -46,7 +67,7 @@ function SelectMode(props) {
                   paddingBottom: "20px",
                 }}
               >
-                <IconRegion></IconRegion>
+                <IconRegion />
                 <Title level="2">Регионы</Title>
                 <Text
                   weight="3"
@@ -59,7 +80,7 @@ function SelectMode(props) {
           </CardGrid>
         </Card>
       </CardGrid>
-    </>
+    </Panel>
   );
 }
 export default SelectMode;

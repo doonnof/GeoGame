@@ -18,7 +18,7 @@
     "@vkontakte/vk-bridge": "latest",
     "@vkontakte/vk-miniapps-deploy": "0.0.25",
     "@vkontakte/vkjs": "0.20.0",
-    "@vkontakte/vkui": "^5.2.1",
+    "@vkontakte/vkui": "^5.3.1",
     "babel-eslint": "^10.1.0",
     "country-flag-icons": "^1.5.6",
     "eruda": "^2.4.1",

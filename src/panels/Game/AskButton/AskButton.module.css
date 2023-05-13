@@ -1,0 +1,10 @@
+.container {
+    background: #fff;
+    padding: 12px;
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    width: calc(100% - 32px);
+    transform: translate(-50%);
+    z-index: 3000;
+}

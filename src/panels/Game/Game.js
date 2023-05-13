@@ -27,7 +27,7 @@ function Game({ id, gameModel, goToPanel3, selectMapModel }) {
   const isFinished = gameModel.isFinished$.get();
   const currentRegionId = selectMapModel.currentRegionId$.get();
   const inRoundResult = gameModel.inRoundResult();
-  console.log(rounds);
+
   useEffect(() => isFinished && goToPanel3(), [isFinished]);
   useEffect(() => gameModel.selectRegion(currentRegionId), [currentRegionId]);
   useEffect(() => {

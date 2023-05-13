@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 import { Card, RichCell } from "@vkontakte/vkui";
 
 import Flag from "../../../components/Flag";
-import { countries } from "../../../data/countries";
 
 import classes from "./GameBanner.module.css";
 import { findCountry, findRegion } from "../../../data/utils";
@@ -13,6 +12,7 @@ function GameBanner({ currentIndex, allIndexes, currentRound, mapType }) {
     mapType === "001"
       ? findCountry(currentRound?.ask)?.name
       : findRegion(currentRound?.ask)?.name;
+
   return (
     <Card mode="shadow" className={classes.card}>
       <RichCell
