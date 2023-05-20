@@ -14,3 +14,8 @@
     height: 64px;
     border: 1px solid var(--vkui--color_image_border_alpha);
 }
+.flag{
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+}
