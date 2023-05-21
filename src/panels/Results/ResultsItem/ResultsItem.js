@@ -1,13 +1,12 @@
 import React from "react";
 
-import { SimpleCell } from "@vkontakte/vkui";
+import { SimpleCell, Caption, Text } from "@vkontakte/vkui";
 
 import { findCountry, findRegion } from "../../../data/utils";
 import Flag from "../../../components/Flag";
 import {
   Icon20CancelCircleFillRed,
   Icon20CheckCircleFillGreen,
-  Icon24MinusOutline,
 } from "@vkontakte/icons";
 
 function ResultsItem({ item, mapType }) {
@@ -15,52 +14,38 @@ function ResultsItem({ item, mapType }) {
   const foundAnswer = find(item.answer);
   const foundAsk = find(item.ask);
 
+  const isSuccess = foundAsk.iso3166 === foundAnswer.iso3166;
   return (
     <SimpleCell
+      disabled
       before={
-        foundAsk.iso3166 === foundAnswer.iso3166 ? (
-          <Icon20CheckCircleFillGreen />
+        <Flag
+          iso3166={foundAnswer.iso3166}
+          style={{
+            minWidth: 28,
+            width: 28,
+            height: 18,
+            borderRadius: 3,
+            border: "1px solid var(--vkui--color_image_border_alpha)",
+          }}
+        />
+      }
+      after={
+        isSuccess ? (
+          <Icon20CheckCircleFillGreen width={24} height={24} />
         ) : (
-          <Icon20CancelCircleFillRed />
+          <Icon20CancelCircleFillRed width={24} height={24} />
         )
       }
     >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 6,
-          marginLeft: 24,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Flag
-            iso3166={foundAsk.iso3166}
-            style={{
-              width: 28,
-              height: 18,
-              borderRadius: 3,
-              border: "1px solid var(--vkui--color_image_border_alpha)",
-            }}
-          />
-          {foundAsk.name}
-        </div>
-        {foundAnswer.iso3166 !== foundAsk.iso3166 && (
-          <>
-            <Icon24MinusOutline />
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <Flag
-                iso3166={foundAnswer.iso3166}
-                style={{
-                  width: 28,
-                  height: 18,
-                  borderRadius: 3,
-                  border: "1px solid var(--vkui--color_image_border_alpha)",
-                }}
-              />
-              {foundAnswer.name}
-            </div>
-          </>
+      <div style={{ paddingLeft: 12 }}>
+        <Text weight="2" style={{ whiteSpace: "normal" }}>
+          {foundAnswer.name}
+        </Text>
+        {!isSuccess && (
+          <Caption style={{ color: "var(--vkui--color_accent_green)" }}>
+            {foundAsk.name}
+          </Caption>
         )}
       </div>
     </SimpleCell>

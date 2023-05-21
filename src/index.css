@@ -1,0 +1,7 @@
+.vkuiPanel .vkuiPanel__in, .vkuiPanel:before {
+    background: var(--vkui--color_background_secondary) !important;
+}
+
+body {
+    margin: 0   ;
+}

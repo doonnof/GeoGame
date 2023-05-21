@@ -221,7 +221,7 @@ export class SelectMapModel {
 
     this.successMarkCoords$.set(computeMidGeometry(this.findRegion(successId)));
 
-    this.zoom(1);
+    this.zoom(this.mapZoom);
   }
 
   /**

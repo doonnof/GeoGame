@@ -1,10 +1,9 @@
 .container {
-    background: #fff;
-    padding: 12px;
+    background: var(--vkui--color_background_content);
     position: fixed;
     left: 50%;
     bottom: 0;
-    width: calc(100% - 32px);
+    width: 100%;
     transform: translate(-50%);
     z-index: 3000;
 }

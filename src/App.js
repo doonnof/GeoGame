@@ -3,6 +3,7 @@ import { AdaptivityProvider, AppRoot, ConfigProvider } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 
 import Home from "./panels/Home";
+import "./index.css"
 
 const App = () => {
   return (

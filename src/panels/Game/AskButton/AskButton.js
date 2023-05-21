@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@vkontakte/vkui";
+import { Button, Div } from "@vkontakte/vkui";
 
 import classes from "./AskButton.module.css";
 
@@ -20,14 +20,16 @@ function AskButton({ gameModel, selectMapModel }) {
 
   return (
     <div className={classes.container}>
-      <Button
-        size="l"
-        style={{ width: "100%" }}
-        disabled={!currentAnswer}
-        onClick={onClick}
-      >
-        Ответить
-      </Button>
+      <Div>
+        <Button
+          size="l"
+          style={{ width: "100%" }}
+          disabled={!currentAnswer}
+          onClick={onClick}
+        >
+          Ответить
+        </Button>
+      </Div>
     </div>
   );
 }

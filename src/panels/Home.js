@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { YMaps } from "@pbe/react-yandex-maps";
-import { Panel, PanelHeader, View } from "@vkontakte/vkui";
+import { View } from "@vkontakte/vkui";
 import SelectMode from "./SelectMode";
 import { Game } from "./Game";
-import { countries } from "../data/countries";
-import Flag from "../components/Flag";
 import { GameModel } from "../models/GameModel";
 import Results from "./Results/Results";
 import { SelectMapModel } from "../models/SelectMapModel";

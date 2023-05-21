@@ -45,7 +45,7 @@ function Game({ id, gameModel, goToPanel3, selectMapModel }) {
   return (
     <Panel id={id}>
       <ModalCardResult gameModel={gameModel} selectMapModel={selectMapModel} />
-      <PanelHeader>Игрулечка</PanelHeader>
+      <PanelHeader>GeoGame</PanelHeader>
       <GameBanner
         currentRound={gameModel.getCurrentRound()}
         currentIndex={currentRoundIndex}

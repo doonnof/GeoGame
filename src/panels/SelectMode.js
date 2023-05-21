@@ -18,7 +18,7 @@ function SelectMode({ id, goToPanel2, selectMapModel }) {
       <PanelHeader>GeoGame</PanelHeader>
 
       <CardGrid size="l" spaced>
-        <Card mode="shadow">
+        <Card mode="shadow" style={{ textAlign: "center" }}>
           <CardGrid size="l" spaced>
             <Title level="1" style={{ marginBottom: 16 }}>
               Выберите режим
@@ -35,7 +35,6 @@ function SelectMode({ id, goToPanel2, selectMapModel }) {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  padding: "20px 0px 0px",
                   gap: "6px",
                   paddingBottom: "20px",
                 }}
@@ -46,7 +45,7 @@ function SelectMode({ id, goToPanel2, selectMapModel }) {
                   weight="3"
                   style={{ color: "var(--vkui--color_icon_medium)" }}
                 >
-                  Вам предстоит угадывать страны
+                  Вам предстоит угадывать страны по всей планете!
                 </Text>
               </Div>
             </Card>
@@ -62,18 +61,17 @@ function SelectMode({ id, goToPanel2, selectMapModel }) {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  padding: "20px 0px 0px",
                   gap: "6px",
                   paddingBottom: "20px",
                 }}
               >
                 <IconRegion />
-                <Title level="2">Регионы</Title>
+                <Title level="2">Россия</Title>
                 <Text
                   weight="3"
                   style={{ color: "var(--vkui--color_icon_medium)" }}
                 >
-                  Вам предстоит угадывать страны
+                  Попробуйте угадать все регионы России!
                 </Text>
               </Div>
             </Card>

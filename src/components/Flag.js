@@ -84,16 +84,17 @@ export const ruIconsMap = {
   "RU-SPE": `${wikiHost}c/c9/Flag_of_Saint_Petersburg_%28digital_version%29.svg/100px-Flag_of_Saint_Petersburg_%28digital_version%29.svg.png`,
   "RU-MOW": `${wikiHost}0/03/Flag_of_Moscow%2C_Russia.svg/100px-Flag_of_Moscow%2C_Russia.svg.png`,
   "RU-YEV": `${wikiHost}0/0e/Flag_of_the_Jewish_Autonomous_Oblast.svg/100px-Flag_of_the_Jewish_Autonomous_Oblast.svg.png`,
-  "UA-40": `${wikiHost}1/14/Flag_of_Sevastopol.svg/100px-Flag_of_Sevastopol.svg.png`,
-  "UA-43": `${wikiHost}a/aa/Flag_of_Crimea.svg/100px-Flag_of_Crimea.svg.png`,
+  "RU-SEV": `${wikiHost}1/14/Flag_of_Sevastopol.svg/100px-Flag_of_Sevastopol.svg.png`,
+  "RU-KRY": `${wikiHost}a/aa/Flag_of_Crimea.svg/100px-Flag_of_Crimea.svg.png`,
 };
 
 function Flag({ iso3166, style, className }) {
   const FlagIn = flags[iso3166];
-  const  FlagRussiaIn = ruIconsMap[iso3166];
-  if (FlagRussiaIn) return <img src={FlagRussiaIn} style={style} className={className}/>
+  const FlagRussiaIn = ruIconsMap[iso3166];
+  if (FlagRussiaIn)
+    return <img src={FlagRussiaIn} style={style} className={className} />;
   if (FlagIn) return <FlagIn style={style} className={className} />;
-  return null;
+  return <div style={style} className={className}></div>;
 }
 
 export default Flag;
