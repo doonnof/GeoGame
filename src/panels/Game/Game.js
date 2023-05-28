@@ -1,13 +1,12 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 
-import { PanelHeader, Panel, ScreenSpinner } from "@vkontakte/vkui";
+import { Panel, PanelHeader, ScreenSpinner } from "@vkontakte/vkui";
 
 import SelectRegionsMap from "../../components/SelectRegionsMap";
 import { useSubscribe } from "../../hooks/useSubscribe";
 import ModalCardResult from "./ModalCardResult/ModalCardResult";
 import GameBanner from "./GameBanner/GameBanner";
 import AskButton from "./AskButton/AskButton";
-import { SelectMapModel } from "../../models/SelectMapModel";
 
 function Game({ id, gameModel, goToPanel3, selectMapModel }) {
   useSubscribe(

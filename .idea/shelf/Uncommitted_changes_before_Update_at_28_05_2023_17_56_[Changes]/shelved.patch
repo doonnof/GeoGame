@@ -1,0 +1,1358 @@
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/src/panels/__tests__/Results.test.js
+rename from .idea/modules.xml
+rename to src/panels/__tests__/Results.test.js
+--- a/.idea/modules.xml	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ b/src/panels/__tests__/Results.test.js	(date 1685284991133)
+@@ -1,0 +1,8 @@
++import React from "react";
++import renderer from "react-test-renderer";
++import Results from "../Results";
++
++it("Results should render correctly", () => {
++  const tree = renderer.create(<Results />).toJSON();
++  expect(tree).toMatchSnapshot();
++});
+\ No newline at end of file
+Index: src/panels/Game/Game.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useMemo } from \"react\";\r\n\r\nimport { PanelHeader, Panel, ScreenSpinner } from \"@vkontakte/vkui\";\r\n\r\nimport SelectRegionsMap from \"../../components/SelectRegionsMap\";\r\nimport { useSubscribe } from \"../../hooks/useSubscribe\";\r\nimport ModalCardResult from \"./ModalCardResult/ModalCardResult\";\r\nimport GameBanner from \"./GameBanner/GameBanner\";\r\nimport AskButton from \"./AskButton/AskButton\";\r\nimport { SelectMapModel } from \"../../models/SelectMapModel\";\r\n\r\nfunction Game({ id, gameModel, goToPanel3, selectMapModel }) {\r\n  useSubscribe(\r\n    selectMapModel.loadingMap$,\r\n    selectMapModel.currentRegionId$,\r\n    gameModel.isFinished$,\r\n    gameModel.currentAnswer$,\r\n    gameModel.rounds$,\r\n    gameModel.currentRoundIndex$,\r\n    gameModel.nextIsFinish$,\r\n    gameModel.isErrorAsk$,\r\n    gameModel.isSuccessAsk$\r\n  );\r\n\r\n  const rounds = gameModel.rounds$.get();\r\n  const currentRoundIndex = gameModel.currentRoundIndex$.get();\r\n  const isFinished = gameModel.isFinished$.get();\r\n  const currentRegionId = selectMapModel.currentRegionId$.get();\r\n  const inRoundResult = gameModel.inRoundResult();\r\n\r\n  useEffect(() => isFinished && goToPanel3(), [isFinished]);\r\n  useEffect(() => gameModel.selectRegion(currentRegionId), [currentRegionId]);\r\n  useEffect(() => {\r\n    if (selectMapModel.mapType === \"001\") {\r\n      gameModel.generateRounds();\r\n    } else {\r\n      gameModel.generateRegionRounds();\r\n    }\r\n  }, []);\r\n  useEffect(\r\n    () => selectMapModel.setDisableEvents(inRoundResult),\r\n    [inRoundResult]\r\n  );\r\n\r\n  return (\r\n    <Panel id={id}>\r\n      <ModalCardResult gameModel={gameModel} selectMapModel={selectMapModel} />\r\n      <PanelHeader>GeoGame</PanelHeader>\r\n      <GameBanner\r\n        currentRound={gameModel.getCurrentRound()}\r\n        currentIndex={currentRoundIndex}\r\n        allIndexes={rounds.length}\r\n        mapType={selectMapModel.mapType}\r\n      />\r\n      <SelectRegionsMap\r\n        height={\"calc(100vh - 56px)\"}\r\n        selectMapModel={selectMapModel}\r\n      />\r\n      <AskButton gameModel={gameModel} selectMapModel={selectMapModel} />\r\n      {selectMapModel.loadingMap$.get() && <ScreenSpinner state=\"loading\" />}\r\n    </Panel>\r\n  );\r\n}\r\n\r\nexport default Game;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/panels/Game/Game.js b/src/panels/Game/Game.js
+--- a/src/panels/Game/Game.js	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ b/src/panels/Game/Game.js	(date 1685269486409)
+@@ -1,13 +1,12 @@
+-import React, { useEffect, useMemo } from "react";
++import React, { useEffect } from "react";
+ 
+-import { PanelHeader, Panel, ScreenSpinner } from "@vkontakte/vkui";
++import { Panel, PanelHeader, ScreenSpinner } from "@vkontakte/vkui";
+ 
+ import SelectRegionsMap from "../../components/SelectRegionsMap";
+ import { useSubscribe } from "../../hooks/useSubscribe";
+ import ModalCardResult from "./ModalCardResult/ModalCardResult";
+ import GameBanner from "./GameBanner/GameBanner";
+ import AskButton from "./AskButton/AskButton";
+-import { SelectMapModel } from "../../models/SelectMapModel";
+ 
+ function Game({ id, gameModel, goToPanel3, selectMapModel }) {
+   useSubscribe(
+Index: .idea/GeoGame.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/GeoGame.iml b/src/panels/__tests__/Game.test.js
+rename from .idea/GeoGame.iml
+rename to src/panels/__tests__/Game.test.js
+--- a/.idea/GeoGame.iml	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ b/src/panels/__tests__/Game.test.js	(date 1685284991140)
+@@ -1,0 +1,8 @@
++import React from "react";
++import renderer from "react-test-renderer";
++import { Game } from "../Game";
++
++it("Game should render correctly", () => {
++  const tree = renderer.create(<Game />).toJSON();
++  expect(tree).toMatchSnapshot();
++});
+\ No newline at end of file
+Index: .idea/prettier.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/prettier.xml b/src/panels/__tests__/SelectMode.test.js
+rename from .idea/prettier.xml
+rename to src/panels/__tests__/SelectMode.test.js
+--- a/.idea/prettier.xml	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ b/src/panels/__tests__/SelectMode.test.js	(date 1685269829487)
+@@ -1,0 +1,8 @@
++import React from "react";
++import renderer from "react-test-renderer";
++import SelectMode from "../SelectMode";
++
++it("SelectMode should render correctly", () => {
++  const tree = renderer.create(<SelectMode />).toJSON();
++  expect(tree).toMatchSnapshot();
++});
+\ No newline at end of file
+Index: package.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"name\": \"mini-app\",\r\n  \"version\": \"0.0.0\",\r\n  \"scripts\": {\r\n    \"start\": \"cross-env PORT=10888 HTTPS=true react-scripts start\",\r\n    \"build\": \"react-scripts build\",\r\n    \"predeploy\": \"npm run build\",\r\n    \"deploy\": \"vk-miniapps-deploy\"\r\n  },\r\n  \"engines\": {\r\n    \"node\": \">=12.0.0\"\r\n  },\r\n  \"keywords\": [],\r\n  \"license\": \"MIT\",\r\n  \"dependencies\": {\r\n    \"@pbe/react-yandex-maps\": \"^1.2.2\",\r\n    \"@vkontakte/icons\": \"^2.16.0\",\r\n    \"@vkontakte/vk-bridge\": \"latest\",\r\n    \"@vkontakte/vk-miniapps-deploy\": \"0.0.25\",\r\n    \"@vkontakte/vkjs\": \"0.20.0\",\r\n    \"@vkontakte/vkui\": \"^5.3.1\",\r\n    \"babel-eslint\": \"^10.1.0\",\r\n    \"country-flag-icons\": \"^1.5.6\",\r\n    \"eruda\": \"^2.4.1\",\r\n    \"eruda-code\": \"^2.0.0\",\r\n    \"eruda-dom\": \"^2.0.0\",\r\n    \"prop-types\": \"^15.7.2\",\r\n    \"react\": \"^17.0.2\",\r\n    \"react-dom\": \"^17.0.2\",\r\n    \"react-yandex-maps\": \"^4.0.1\"\r\n  },\r\n  \"devDependencies\": {\r\n    \"cross-env\": \"^7.0.3\",\r\n    \"prettier\": \"^2.8.4\",\r\n    \"react-hot-loader\": \"^4.13.0\",\r\n    \"react-scripts\": \"^4.0.3\"\r\n  },\r\n  \"resolutions\": {\r\n    \"react-scripts/webpack-dev-server/yargs/yargs-parser\": \">=18.1.2\"\r\n  },\r\n  \"overrides\": {\r\n    \"es5-ext@^0.10.50\": \"0.10.53\"\r\n  },\r\n  \"browserslist\": {\r\n    \"production\": [\r\n      \">0.2%\",\r\n      \"not dead\",\r\n      \"not op_mini all\"\r\n    ],\r\n    \"development\": [\r\n      \"last 1 chrome version\",\r\n      \"last 1 firefox version\",\r\n      \"last 1 safari version\"\r\n    ]\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package.json b/package.json
+--- a/package.json	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ b/package.json	(date 1685285109951)
+@@ -5,7 +5,8 @@
+     "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
+     "build": "react-scripts build",
+     "predeploy": "npm run build",
+-    "deploy": "vk-miniapps-deploy"
++    "deploy": "vk-miniapps-deploy",
++    "test": "react-scripts test"
+   },
+   "engines": {
+     "node": ">=12.0.0"
+@@ -14,6 +15,7 @@
+   "license": "MIT",
+   "dependencies": {
+     "@pbe/react-yandex-maps": "^1.2.2",
++    "@testing-library/react-hooks": "^8.0.1",
+     "@vkontakte/icons": "^2.16.0",
+     "@vkontakte/vk-bridge": "latest",
+     "@vkontakte/vk-miniapps-deploy": "0.0.25",
+@@ -33,7 +35,8 @@
+     "cross-env": "^7.0.3",
+     "prettier": "^2.8.4",
+     "react-hot-loader": "^4.13.0",
+-    "react-scripts": "^4.0.3"
++    "react-scripts": "^4.0.3",
++    "react-test-renderer": "^17.0.2"
+   },
+   "resolutions": {
+     "react-scripts/webpack-dev-server/yargs/yargs-parser": ">=18.1.2"
+Index: src/utils/ReactiveBox.js
+===================================================================
+diff --git a/src/utils/ReactiveBox.js b/src/utils/ReactiveBox.js
+deleted file mode 100644
+--- a/src/utils/ReactiveBox.js	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ /dev/null	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
+@@ -1,30 +0,0 @@
+-export class ReactiveBox {
+-    constructor(value) {
+-        this.listeners = new Set([])
+-        this.value = value
+-    }
+-
+-    subscribe(listener) {
+-        this.listeners.add(listener)
+-    }
+-
+-    unsubscribe(listener) {
+-        this.listeners.delete(listener)
+-    }
+-
+-    update(value) {
+-        this.value = value
+-
+-        this.listeners.forEach((listener) => listener())
+-    }
+-}
+-
+-
+-const hello1 = new ReactiveBox('hello')
+-
+-hello1.subscribe(() => {
+-    console.log(hello1.value)
+-})
+-
+-hello1.update('bye')
+-
+Index: src/models/ResultMapModel.js
+===================================================================
+diff --git a/src/models/ResultMapModel.js b/src/models/ResultMapModel.js
+deleted file mode 100644
+--- a/src/models/ResultMapModel.js	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ /dev/null	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
+@@ -1,46 +0,0 @@
+-import { Subject } from "./Subject";
+-import { computeMidGeometry } from "../utils/computeMidGeometry";
+-
+-export class ResultMapModel {
+-  constructor(rounds) {
+-    this.ymaps = null;
+-    this.map = null;
+-    this.rounds = rounds;
+-
+-    this.placeMarks$ = new Subject([]);
+-  }
+-
+-  findGeometry(id) {
+-    return this.geoObjects.features.find((feature) => feature.id === id);
+-  }
+-
+-  init() {
+-    const features = this.geoObjects.features.map((feature) => {
+-      feature["id"] = feature.properties.iso3166;
+-      return feature;
+-    });
+-
+-    this.objectManager.add(features);
+-    this.map.geoObjects.add(this.objectManager);
+-
+-    this.placeMarks$.set(
+-      this.rounds.map(({ ask, answer }) => [
+-        computeMidGeometry(this.findGeometry(ask)),
+-        computeMidGeometry(this.findGeometry(answer)),
+-      ])
+-    );
+-  }
+-
+-  setMap = (map) => {
+-    this.map = map;
+-  };
+-
+-  setYMaps(yMaps) {
+-    this.ymaps = yMaps;
+-    this.objectManager = new yMaps.ObjectManager();
+-  }
+-
+-  setGeoObjects(geoObjects) {
+-    this.geoObjects = geoObjects;
+-  }
+-}
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/codeStyles/Project.xml b/.idea/codeStyles/Project.xml
+deleted file mode 100644
+--- a/.idea/codeStyles/Project.xml	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ /dev/null	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
+@@ -1,58 +0,0 @@
+-<component name="ProjectCodeStyleConfiguration">
+-  <code_scheme name="Project" version="173">
+-    <HTMLCodeStyleSettings>
+-      <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+-      <option name="HTML_ENFORCE_QUOTES" value="true" />
+-    </HTMLCodeStyleSettings>
+-    <JSCodeStyleSettings version="0">
+-      <option name="FORCE_SEMICOLON_STYLE" value="true" />
+-      <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+-      <option name="FORCE_QUOTE_STYlE" value="true" />
+-      <option name="ENFORCE_TRAILING_COMMA" value="Remove" />
+-      <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
+-      <option name="SPACES_WITHIN_IMPORTS" value="true" />
+-    </JSCodeStyleSettings>
+-    <TypeScriptCodeStyleSettings version="0">
+-      <option name="FORCE_SEMICOLON_STYLE" value="true" />
+-      <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+-      <option name="FORCE_QUOTE_STYlE" value="true" />
+-      <option name="ENFORCE_TRAILING_COMMA" value="Remove" />
+-      <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
+-      <option name="SPACES_WITHIN_IMPORTS" value="true" />
+-    </TypeScriptCodeStyleSettings>
+-    <VueCodeStyleSettings>
+-      <option name="INTERPOLATION_NEW_LINE_AFTER_START_DELIMITER" value="false" />
+-      <option name="INTERPOLATION_NEW_LINE_BEFORE_END_DELIMITER" value="false" />
+-    </VueCodeStyleSettings>
+-    <codeStyleSettings language="HTML">
+-      <option name="SOFT_MARGINS" value="80" />
+-      <indentOptions>
+-        <option name="INDENT_SIZE" value="2" />
+-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+-        <option name="TAB_SIZE" value="2" />
+-      </indentOptions>
+-    </codeStyleSettings>
+-    <codeStyleSettings language="JavaScript">
+-      <option name="SOFT_MARGINS" value="80" />
+-      <indentOptions>
+-        <option name="INDENT_SIZE" value="2" />
+-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+-        <option name="TAB_SIZE" value="2" />
+-      </indentOptions>
+-    </codeStyleSettings>
+-    <codeStyleSettings language="TypeScript">
+-      <option name="SOFT_MARGINS" value="80" />
+-      <indentOptions>
+-        <option name="INDENT_SIZE" value="2" />
+-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+-        <option name="TAB_SIZE" value="2" />
+-      </indentOptions>
+-    </codeStyleSettings>
+-    <codeStyleSettings language="Vue">
+-      <option name="SOFT_MARGINS" value="80" />
+-      <indentOptions>
+-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+-      </indentOptions>
+-    </codeStyleSettings>
+-  </code_scheme>
+-</component>
+\ No newline at end of file
+Index: .idea/codeStyles/codeStyleConfig.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/codeStyles/codeStyleConfig.xml b/.idea/codeStyles/codeStyleConfig.xml
+deleted file mode 100644
+--- a/.idea/codeStyles/codeStyleConfig.xml	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ /dev/null	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
+@@ -1,5 +0,0 @@
+-<component name="ProjectCodeStyleConfiguration">
+-  <state>
+-    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
+-  </state>
+-</component>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+deleted file mode 100644
+--- a/.idea/vcs.xml	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ /dev/null	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+deleted file mode 100644
+--- a/.idea/workspace.xml	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ /dev/null	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
+@@ -1,157 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="AutoImportSettings">
+-    <option name="autoReloadType" value="SELECTIVE" />
+-  </component>
+-  <component name="ChangeListManager">
+-    <list default="true" id="589f5141-af52-461a-935a-6f36a59e22b3" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/src/components/Flag.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Flag.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/panels/Game/GameBanner/GameBanner.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/panels/Game/GameBanner/GameBanner.module.css" afterDir="false" />
+-    </list>
+-    <option name="SHOW_DIALOG" value="false" />
+-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-    <option name="LAST_RESOLUTION" value="IGNORE" />
+-  </component>
+-  <component name="ComposerSettings">
+-    <execution />
+-  </component>
+-  <component name="Git.Settings">
+-    <option name="RECENT_BRANCH_BY_REPOSITORY">
+-      <map>
+-        <entry key="$PROJECT_DIR$" value="master" />
+-      </map>
+-    </option>
+-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+-    <option name="RESET_MODE" value="HARD" />
+-  </component>
+-  <component name="GitSEFilterConfiguration">
+-    <file-type-list>
+-      <filtered-out-file-type name="LOCAL_BRANCH" />
+-      <filtered-out-file-type name="REMOTE_BRANCH" />
+-      <filtered-out-file-type name="TAG" />
+-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+-    </file-type-list>
+-  </component>
+-  <component name="MarkdownSettingsMigration">
+-    <option name="stateVersion" value="1" />
+-  </component>
+-  <component name="ProjectId" id="2OQcgVUVVT9FJg3MYjuEi322VZo" />
+-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+-  <component name="ProjectViewState">
+-    <option name="hideEmptyMiddlePackages" value="true" />
+-    <option name="showLibraryContents" value="true" />
+-  </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/Users/админ/Desktop/GeoGame&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\админ\\Desktop\\GeoGame\\node_modules\\prettier&quot;,
+-    &quot;ts.external.directory.path&quot;: &quot;D:\\prog\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+-  }
+-}</component>
+-  <component name="ReactDesignerToolWindowState">
+-    <option name="myId2Visible">
+-      <map>
+-        <entry key="com.haulmont.rcb.reactComponents" value="false" />
+-        <entry key="com.haulmont.rcb.reactInspector" value="false" />
+-      </map>
+-    </option>
+-  </component>
+-  <component name="RecentsManager">
+-    <key name="CopyFile.RECENT_KEYS">
+-      <recent name="C:\Users\админ\Desktop\GeoGame\src\data" />
+-    </key>
+-    <key name="MoveFile.RECENT_KEYS">
+-      <recent name="C:\Users\админ\Desktop\GeoGame\src\models\OnboardingService" />
+-      <recent name="$PROJECT_DIR$/src/panels/Game" />
+-    </key>
+-  </component>
+-  <component name="RunManager">
+-    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+-      <package-json value="$PROJECT_DIR$/package.json" />
+-      <command value="run" />
+-      <scripts>
+-        <script value="start" />
+-      </scripts>
+-      <node-interpreter value="project" />
+-      <envs />
+-      <method v="2" />
+-    </configuration>
+-  </component>
+-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+-  <component name="TaskManager">
+-    <task active="true" id="Default" summary="Default task">
+-      <changelist id="589f5141-af52-461a-935a-6f36a59e22b3" name="Changes" comment="" />
+-      <created>1681496360172</created>
+-      <option name="number" value="Default" />
+-      <option name="presentableId" value="Default" />
+-      <updated>1681496360172</updated>
+-      <workItem from="1681496362996" duration="707000" />
+-      <workItem from="1681497230762" duration="3371000" />
+-      <workItem from="1681501322273" duration="24701000" />
+-      <workItem from="1681660704966" duration="2862000" />
+-      <workItem from="1681668182626" duration="2320000" />
+-      <workItem from="1683203773149" duration="606000" />
+-      <workItem from="1683222484570" duration="601000" />
+-      <workItem from="1683805176936" duration="6952000" />
+-      <workItem from="1683982750604" duration="1982000" />
+-      <workItem from="1684009358145" duration="3530000" />
+-      <workItem from="1684013526782" duration="2398000" />
+-      <workItem from="1684166077532" duration="1569000" />
+-      <workItem from="1684236904675" duration="6166000" />
+-      <workItem from="1684423604902" duration="2033000" />
+-      <workItem from="1684603240992" duration="2155000" />
+-    </task>
+-    <task id="LOCAL-00001" summary="Добавит рефакторинг">
+-      <created>1684015179310</created>
+-      <option name="number" value="00001" />
+-      <option name="presentableId" value="LOCAL-00001" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1684015179310</updated>
+-    </task>
+-    <option name="localTasksCounter" value="2" />
+-    <servers />
+-  </component>
+-  <component name="TypeScriptGeneratedFilesManager">
+-    <option name="version" value="3" />
+-  </component>
+-  <component name="Vcs.Log.Tabs.Properties">
+-    <option name="TAB_STATES">
+-      <map>
+-        <entry key="MAIN">
+-          <value>
+-            <State />
+-          </value>
+-        </entry>
+-      </map>
+-    </option>
+-  </component>
+-  <component name="VcsManagerConfiguration">
+-    <MESSAGE value="Добавит рефакторинг" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Добавит рефакторинг" />
+-  </component>
+-  <component name="XDebuggerManager">
+-    <breakpoint-manager>
+-      <breakpoints>
+-        <line-breakpoint enabled="true" type="javascript">
+-          <url>file://$PROJECT_DIR$/src/models/OnboardingService/OnboardingService.js</url>
+-          <line>12</line>
+-          <option name="timeStamp" value="1" />
+-        </line-breakpoint>
+-      </breakpoints>
+-    </breakpoint-manager>
+-  </component>
+-  <component name="XSLT-Support.FileAssociations.UIState">
+-    <expand />
+-    <select />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: src/components/ResultRegionsMap.js
+===================================================================
+diff --git a/src/components/ResultRegionsMap.js b/src/components/ResultRegionsMap.js
+deleted file mode 100644
+--- a/src/components/ResultRegionsMap.js	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ /dev/null	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
+@@ -1,90 +0,0 @@
+-import { Map, Placemark, useYMaps } from "@pbe/react-yandex-maps";
+-import React, { useEffect, useLayoutEffect } from "react";
+-import { useSubscribe } from "../hooks/useSubscribe";
+-
+-function scheduleDrawMap(callback) {
+-  setTimeout(callback, 100);
+-}
+-
+-function ResultRegionsMap({ height, resultMapModel }) {
+-  const yMaps = useYMaps(["borders", "ObjectManager"]);
+-
+-  useSubscribe(resultMapModel.placeMarks$);
+-
+-  useLayoutEffect(() => {
+-    if (!yMaps) return;
+-
+-    resultMapModel.setYMaps(yMaps);
+-    yMaps.borders
+-      .load("001", { lang: "ru", quality: 0 })
+-      .then((geoObjects) => {
+-        scheduleDrawMap(() => {
+-          resultMapModel.setGeoObjects(geoObjects);
+-          resultMapModel.init();
+-        });
+-      })
+-      .catch((error) => console.log(error));
+-
+-    // Создаём макет иконки.
+-    // const MyIconLayout = yMaps.templateLayoutFactory.createClass(
+-    //   [
+-    //     '<svg width="46" height="46" style="position: absolute; top: -23px; left: -23px;">',
+-    //     '<use href="#sym01"/>',
+-    //     "</svg>",
+-    //   ].join("")
+-    // );
+-    // const myPlacemark = new yMaps.Placemark(
+-    //   map.getCenter(),
+-    //   {
+-    //     hintContent: "Собственный значок метки",
+-    //     balloonContent: "Это красивая метка",
+-    //   },
+-    //   {
+-    //     iconLayout: MyIconLayout,
+-    //     iconShape: {
+-    //       type: "Circle",
+-    //       // Круг описывается в виде центра и радиуса
+-    //       coordinates: [55.751574, 37.573856],
+-    //       radius: 23,
+-    //     },
+-    //   }
+-    // );
+-    //
+-    // map.geoObjects.add(myPlacemark);
+-  }, [yMaps]);
+-
+-  return (
+-    <Map
+-      width="100%"
+-      height={height}
+-      instanceRef={resultMapModel.setMap}
+-      defaultState={{ center: [55.751574, 37.573856], zoom: 1, type: null }}
+-    >
+-      {/*{resultMapModel.placeMarks$.get().map((marks) =>*/}
+-      {/*  marks.map((coords) => (*/}
+-      {/*    <>*/}
+-      {/*      <Placemark*/}
+-      {/*        options={{*/}
+-      {/*          iconShape: {*/}
+-      {/*            type: "Circle",*/}
+-      {/*            radius: 23,*/}
+-      {/*            coordinates: coords,*/}
+-      {/*          },*/}
+-      {/*          iconLayout: yMaps?.templateLayoutFactory?.createClass(*/}
+-      {/*            [*/}
+-      {/*              '<svg width="46" height="46" style="position: absolute; top: -23px; left: -23px;">',*/}
+-      {/*              '<use href="#sym01"/>',*/}
+-      {/*              "</svg>",*/}
+-      {/*            ].join("")*/}
+-      {/*          ),*/}
+-      {/*        }}*/}
+-      {/*      />*/}
+-      {/*      }*/}
+-      {/*    </>*/}
+-      {/*  ))*/}
+-      {/*)}*/}
+-    </Map>
+-  );
+-}
+-
+-export default ResultRegionsMap;
+Index: package-lock.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package-lock.json b/package-lock.json
+--- a/package-lock.json	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ b/package-lock.json	(date 1685269886255)
+@@ -10,11 +10,12 @@
+       "license": "MIT",
+       "dependencies": {
+         "@pbe/react-yandex-maps": "^1.2.2",
++        "@testing-library/react-hooks": "^8.0.1",
+         "@vkontakte/icons": "^2.16.0",
+         "@vkontakte/vk-bridge": "latest",
+         "@vkontakte/vk-miniapps-deploy": "0.0.25",
+         "@vkontakte/vkjs": "0.20.0",
+-        "@vkontakte/vkui": "^5.2.1",
++        "@vkontakte/vkui": "^5.3.1",
+         "babel-eslint": "^10.1.0",
+         "country-flag-icons": "^1.5.6",
+         "eruda": "^2.4.1",
+@@ -29,7 +30,8 @@
+         "cross-env": "^7.0.3",
+         "prettier": "^2.8.4",
+         "react-hot-loader": "^4.13.0",
+-        "react-scripts": "^4.0.3"
++        "react-scripts": "^4.0.3",
++        "react-test-renderer": "^17.0.2"
+       },
+       "engines": {
+         "node": ">=12.0.0"
+@@ -2877,6 +2879,43 @@
+         "node": ">=8.9.0"
+       }
+     },
++    "node_modules/@swc/helpers": {
++      "version": "0.4.14",
++      "resolved": "https://registry.npmjs.org/@swc/helpers/-/helpers-0.4.14.tgz",
++      "integrity": "sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==",
++      "dependencies": {
++        "tslib": "^2.4.0"
++      }
++    },
++    "node_modules/@testing-library/react-hooks": {
++      "version": "8.0.1",
++      "resolved": "https://registry.npmjs.org/@testing-library/react-hooks/-/react-hooks-8.0.1.tgz",
++      "integrity": "sha512-Aqhl2IVmLt8IovEVarNDFuJDVWVvhnr9/GCU6UUnrYXwgDFF9h2L2o2P9KBni1AST5sT6riAyoukFLyjQUgD/g==",
++      "dependencies": {
++        "@babel/runtime": "^7.12.5",
++        "react-error-boundary": "^3.1.0"
++      },
++      "engines": {
++        "node": ">=12"
++      },
++      "peerDependencies": {
++        "@types/react": "^16.9.0 || ^17.0.0",
++        "react": "^16.9.0 || ^17.0.0",
++        "react-dom": "^16.9.0 || ^17.0.0",
++        "react-test-renderer": "^16.9.0 || ^17.0.0"
++      },
++      "peerDependenciesMeta": {
++        "@types/react": {
++          "optional": true
++        },
++        "react-dom": {
++          "optional": true
++        },
++        "react-test-renderer": {
++          "optional": true
++        }
++      }
++    },
+     "node_modules/@tootallnate/once": {
+       "version": "1.1.2",
+       "dev": true,
+@@ -3014,32 +3053,11 @@
+       "dev": true,
+       "license": "MIT"
+     },
+-    "node_modules/@types/prop-types": {
+-      "version": "15.7.5",
+-      "resolved": "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz",
+-      "integrity": "sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true
+-    },
+     "node_modules/@types/q": {
+       "version": "1.5.5",
+       "dev": true,
+       "license": "MIT"
+     },
+-    "node_modules/@types/react": {
+-      "version": "17.0.53",
+-      "resolved": "https://registry.npmjs.org/@types/react/-/react-17.0.53.tgz",
+-      "integrity": "sha512-1yIpQR2zdYu1Z/dc1OxC+MA6GR240u3gcnP4l6mvj/PJiVaqHsQPmWttsvHsfnhfPbU2FuGmo0wSITPygjBmsw==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true,
+-      "dependencies": {
+-        "@types/prop-types": "*",
+-        "@types/scheduler": "*",
+-        "csstype": "^3.0.2"
+-      }
+-    },
+     "node_modules/@types/resolve": {
+       "version": "0.0.8",
+       "dev": true,
+@@ -3048,14 +3066,6 @@
+         "@types/node": "*"
+       }
+     },
+-    "node_modules/@types/scheduler": {
+-      "version": "0.16.2",
+-      "resolved": "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.2.tgz",
+-      "integrity": "sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true
+-    },
+     "node_modules/@types/source-list-map": {
+       "version": "0.1.2",
+       "dev": true,
+@@ -3376,13 +3386,13 @@
+       "license": "MIT"
+     },
+     "node_modules/@vkontakte/vkui": {
+-      "version": "5.2.1",
+-      "resolved": "https://registry.npmjs.org/@vkontakte/vkui/-/vkui-5.2.1.tgz",
+-      "integrity": "sha512-ny98nMNm1iLqNhJatZ8vXEXToNpOyIucQYqgM80HAK1UbHUrA5nfacvTUKasb10G52VmYBYmTEaBC0YFRvsAhg==",
++      "version": "5.4.2",
++      "resolved": "https://registry.npmjs.org/@vkontakte/vkui/-/vkui-5.4.2.tgz",
++      "integrity": "sha512-H7vvzT1gMWNGrkJAMEJrHHUUFwmC5Jtzq6bkr3VVB8sVnaDCzgoX2unpwC7DTW5WBBTbhU7Jx0Mv8+3zMbu+fA==",
+       "dependencies": {
+-        "@babel/runtime": "7.20.13",
+         "@floating-ui/react-dom": "1.3.0",
+-        "@vkontakte/vkjs": "0.31.0",
++        "@swc/helpers": "^0.4.14",
++        "@vkontakte/vkjs": "^0.32.1",
+         "dayjs": "1.11.7",
+         "mitt": "3.0.0"
+       },
+@@ -3394,14 +3404,22 @@
+       }
+     },
+     "node_modules/@vkontakte/vkui/node_modules/@vkontakte/vkjs": {
+-      "version": "0.31.0",
+-      "resolved": "https://registry.npmjs.org/@vkontakte/vkjs/-/vkjs-0.31.0.tgz",
+-      "integrity": "sha512-LPfB++/mpywsAYUvNUUfKFWRFgCV8ORtDBphs7WTb1MH0Rq9iaLpStLUMmH5Hl2MMQUxGUIQ2J/grbWVv5BIfA==",
++      "version": "0.32.3",
++      "resolved": "https://registry.npmjs.org/@vkontakte/vkjs/-/vkjs-0.32.3.tgz",
++      "integrity": "sha512-nV3CJ87MHRyKwrdCw1RCvHfeQmLTjlZVpuC/GNTahMivwuYIP4lHmTHeqcmFQ/9eEZc4h+ckt7PjlTkhxwRelg==",
++      "dependencies": {
++        "@swc/helpers": "^0.5.0"
++      },
+       "engines": {
+         "yarn": "^1.21.1"
+-      },
+-      "peerDependencies": {
+-        "@babel/runtime": "^7.11.2"
++      }
++    },
++    "node_modules/@vkontakte/vkui/node_modules/@vkontakte/vkjs/node_modules/@swc/helpers": {
++      "version": "0.5.1",
++      "resolved": "https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.1.tgz",
++      "integrity": "sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==",
++      "dependencies": {
++        "tslib": "^2.4.0"
+       }
+     },
+     "node_modules/@webassemblyjs/ast": {
+@@ -6282,14 +6300,6 @@
+       "dev": true,
+       "license": "MIT"
+     },
+-    "node_modules/csstype": {
+-      "version": "3.1.1",
+-      "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.1.1.tgz",
+-      "integrity": "sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true
+-    },
+     "node_modules/cyclist": {
+       "version": "1.0.1",
+       "dev": true,
+@@ -15204,6 +15214,21 @@
+         "react": "17.0.2"
+       }
+     },
++    "node_modules/react-error-boundary": {
++      "version": "3.1.4",
++      "resolved": "https://registry.npmjs.org/react-error-boundary/-/react-error-boundary-3.1.4.tgz",
++      "integrity": "sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==",
++      "dependencies": {
++        "@babel/runtime": "^7.12.5"
++      },
++      "engines": {
++        "node": ">=10",
++        "npm": ">=6"
++      },
++      "peerDependencies": {
++        "react": ">=16.13.1"
++      }
++    },
+     "node_modules/react-error-overlay": {
+       "version": "6.0.10",
+       "dev": true,
+@@ -15465,6 +15490,40 @@
+         "node": ">= 10.0.0"
+       }
+     },
++    "node_modules/react-shallow-renderer": {
++      "version": "16.15.0",
++      "resolved": "https://registry.npmjs.org/react-shallow-renderer/-/react-shallow-renderer-16.15.0.tgz",
++      "integrity": "sha512-oScf2FqQ9LFVQgA73vr86xl2NaOIX73rh+YFqcOp68CWj56tSfgtGKrEbyhCj0rSijyG9M1CYprTh39fBi5hzA==",
++      "devOptional": true,
++      "dependencies": {
++        "object-assign": "^4.1.1",
++        "react-is": "^16.12.0 || ^17.0.0 || ^18.0.0"
++      },
++      "peerDependencies": {
++        "react": "^16.0.0 || ^17.0.0 || ^18.0.0"
++      }
++    },
++    "node_modules/react-test-renderer": {
++      "version": "17.0.2",
++      "resolved": "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-17.0.2.tgz",
++      "integrity": "sha512-yaQ9cB89c17PUb0x6UfWRs7kQCorVdHlutU1boVPEsB8IDZH6n9tHxMacc3y0JoXOJUsZb/t/Mb8FUWMKaM7iQ==",
++      "devOptional": true,
++      "dependencies": {
++        "object-assign": "^4.1.1",
++        "react-is": "^17.0.2",
++        "react-shallow-renderer": "^16.13.1",
++        "scheduler": "^0.20.2"
++      },
++      "peerDependencies": {
++        "react": "17.0.2"
++      }
++    },
++    "node_modules/react-test-renderer/node_modules/react-is": {
++      "version": "17.0.2",
++      "resolved": "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz",
++      "integrity": "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==",
++      "devOptional": true
++    },
+     "node_modules/react-yandex-maps": {
+       "version": "4.0.1",
+       "resolved": "https://registry.npmjs.org/react-yandex-maps/-/react-yandex-maps-4.0.1.tgz",
+@@ -18651,9 +18710,9 @@
+       }
+     },
+     "node_modules/tslib": {
+-      "version": "2.3.1",
+-      "dev": true,
+-      "license": "0BSD"
++      "version": "2.5.2",
++      "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.5.2.tgz",
++      "integrity": "sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA=="
+     },
+     "node_modules/tsutils": {
+       "version": "3.21.0",
+@@ -18702,20 +18761,6 @@
+         "node": ">=4"
+       }
+     },
+-    "node_modules/type-fest": {
+-      "version": "0.13.1",
+-      "resolved": "https://registry.npmjs.org/type-fest/-/type-fest-0.13.1.tgz",
+-      "integrity": "sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true,
+-      "engines": {
+-        "node": ">=10"
+-      },
+-      "funding": {
+-        "url": "https://github.com/sponsors/sindresorhus"
+-      }
+-    },
+     "node_modules/type-is": {
+       "version": "1.6.18",
+       "dev": true,
+@@ -22741,6 +22786,23 @@
+         }
+       }
+     },
++    "@swc/helpers": {
++      "version": "0.4.14",
++      "resolved": "https://registry.npmjs.org/@swc/helpers/-/helpers-0.4.14.tgz",
++      "integrity": "sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==",
++      "requires": {
++        "tslib": "^2.4.0"
++      }
++    },
++    "@testing-library/react-hooks": {
++      "version": "8.0.1",
++      "resolved": "https://registry.npmjs.org/@testing-library/react-hooks/-/react-hooks-8.0.1.tgz",
++      "integrity": "sha512-Aqhl2IVmLt8IovEVarNDFuJDVWVvhnr9/GCU6UUnrYXwgDFF9h2L2o2P9KBni1AST5sT6riAyoukFLyjQUgD/g==",
++      "requires": {
++        "@babel/runtime": "^7.12.5",
++        "react-error-boundary": "^3.1.0"
++      }
++    },
+     "@tootallnate/once": {
+       "version": "1.1.2",
+       "dev": true
+@@ -22855,31 +22917,10 @@
+       "version": "2.4.4",
+       "dev": true
+     },
+-    "@types/prop-types": {
+-      "version": "15.7.5",
+-      "resolved": "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz",
+-      "integrity": "sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true
+-    },
+     "@types/q": {
+       "version": "1.5.5",
+       "dev": true
+     },
+-    "@types/react": {
+-      "version": "17.0.53",
+-      "resolved": "https://registry.npmjs.org/@types/react/-/react-17.0.53.tgz",
+-      "integrity": "sha512-1yIpQR2zdYu1Z/dc1OxC+MA6GR240u3gcnP4l6mvj/PJiVaqHsQPmWttsvHsfnhfPbU2FuGmo0wSITPygjBmsw==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true,
+-      "requires": {
+-        "@types/prop-types": "*",
+-        "@types/scheduler": "*",
+-        "csstype": "^3.0.2"
+-      }
+-    },
+     "@types/resolve": {
+       "version": "0.0.8",
+       "dev": true,
+@@ -22887,14 +22928,6 @@
+         "@types/node": "*"
+       }
+     },
+-    "@types/scheduler": {
+-      "version": "0.16.2",
+-      "resolved": "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.2.tgz",
+-      "integrity": "sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true
+-    },
+     "@types/source-list-map": {
+       "version": "0.1.2",
+       "dev": true
+@@ -23094,22 +23127,34 @@
+       "version": "0.20.0"
+     },
+     "@vkontakte/vkui": {
+-      "version": "5.2.1",
+-      "resolved": "https://registry.npmjs.org/@vkontakte/vkui/-/vkui-5.2.1.tgz",
+-      "integrity": "sha512-ny98nMNm1iLqNhJatZ8vXEXToNpOyIucQYqgM80HAK1UbHUrA5nfacvTUKasb10G52VmYBYmTEaBC0YFRvsAhg==",
++      "version": "5.4.2",
++      "resolved": "https://registry.npmjs.org/@vkontakte/vkui/-/vkui-5.4.2.tgz",
++      "integrity": "sha512-H7vvzT1gMWNGrkJAMEJrHHUUFwmC5Jtzq6bkr3VVB8sVnaDCzgoX2unpwC7DTW5WBBTbhU7Jx0Mv8+3zMbu+fA==",
+       "requires": {
+-        "@babel/runtime": "7.20.13",
+         "@floating-ui/react-dom": "1.3.0",
+-        "@vkontakte/vkjs": "0.31.0",
++        "@swc/helpers": "^0.4.14",
++        "@vkontakte/vkjs": "^0.32.1",
+         "dayjs": "1.11.7",
+         "mitt": "3.0.0"
+       },
+       "dependencies": {
+         "@vkontakte/vkjs": {
+-          "version": "0.31.0",
+-          "resolved": "https://registry.npmjs.org/@vkontakte/vkjs/-/vkjs-0.31.0.tgz",
+-          "integrity": "sha512-LPfB++/mpywsAYUvNUUfKFWRFgCV8ORtDBphs7WTb1MH0Rq9iaLpStLUMmH5Hl2MMQUxGUIQ2J/grbWVv5BIfA==",
+-          "requires": {}
++          "version": "0.32.3",
++          "resolved": "https://registry.npmjs.org/@vkontakte/vkjs/-/vkjs-0.32.3.tgz",
++          "integrity": "sha512-nV3CJ87MHRyKwrdCw1RCvHfeQmLTjlZVpuC/GNTahMivwuYIP4lHmTHeqcmFQ/9eEZc4h+ckt7PjlTkhxwRelg==",
++          "requires": {
++            "@swc/helpers": "^0.5.0"
++          },
++          "dependencies": {
++            "@swc/helpers": {
++              "version": "0.5.1",
++              "resolved": "https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.1.tgz",
++              "integrity": "sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==",
++              "requires": {
++                "tslib": "^2.4.0"
++              }
++            }
++          }
+         }
+       }
+     },
+@@ -25085,14 +25130,6 @@
+         }
+       }
+     },
+-    "csstype": {
+-      "version": "3.1.1",
+-      "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.1.1.tgz",
+-      "integrity": "sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true
+-    },
+     "cyclist": {
+       "version": "1.0.1",
+       "dev": true
+@@ -31149,6 +31186,14 @@
+         "scheduler": "^0.20.2"
+       }
+     },
++    "react-error-boundary": {
++      "version": "3.1.4",
++      "resolved": "https://registry.npmjs.org/react-error-boundary/-/react-error-boundary-3.1.4.tgz",
++      "integrity": "sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==",
++      "requires": {
++        "@babel/runtime": "^7.12.5"
++      }
++    },
+     "react-error-overlay": {
+       "version": "6.0.10",
+       "dev": true
+@@ -31328,6 +31373,36 @@
+         }
+       }
+     },
++    "react-shallow-renderer": {
++      "version": "16.15.0",
++      "resolved": "https://registry.npmjs.org/react-shallow-renderer/-/react-shallow-renderer-16.15.0.tgz",
++      "integrity": "sha512-oScf2FqQ9LFVQgA73vr86xl2NaOIX73rh+YFqcOp68CWj56tSfgtGKrEbyhCj0rSijyG9M1CYprTh39fBi5hzA==",
++      "devOptional": true,
++      "requires": {
++        "object-assign": "^4.1.1",
++        "react-is": "^16.12.0 || ^17.0.0 || ^18.0.0"
++      }
++    },
++    "react-test-renderer": {
++      "version": "17.0.2",
++      "resolved": "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-17.0.2.tgz",
++      "integrity": "sha512-yaQ9cB89c17PUb0x6UfWRs7kQCorVdHlutU1boVPEsB8IDZH6n9tHxMacc3y0JoXOJUsZb/t/Mb8FUWMKaM7iQ==",
++      "devOptional": true,
++      "requires": {
++        "object-assign": "^4.1.1",
++        "react-is": "^17.0.2",
++        "react-shallow-renderer": "^16.13.1",
++        "scheduler": "^0.20.2"
++      },
++      "dependencies": {
++        "react-is": {
++          "version": "17.0.2",
++          "resolved": "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz",
++          "integrity": "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==",
++          "devOptional": true
++        }
++      }
++    },
+     "react-yandex-maps": {
+       "version": "4.0.1",
+       "resolved": "https://registry.npmjs.org/react-yandex-maps/-/react-yandex-maps-4.0.1.tgz",
+@@ -33539,8 +33614,9 @@
+       }
+     },
+     "tslib": {
+-      "version": "2.3.1",
+-      "dev": true
++      "version": "2.5.2",
++      "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.5.2.tgz",
++      "integrity": "sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA=="
+     },
+     "tsutils": {
+       "version": "3.21.0",
+@@ -33573,14 +33649,6 @@
+       "version": "4.0.8",
+       "dev": true
+     },
+-    "type-fest": {
+-      "version": "0.13.1",
+-      "resolved": "https://registry.npmjs.org/type-fest/-/type-fest-0.13.1.tgz",
+-      "integrity": "sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==",
+-      "dev": true,
+-      "optional": true,
+-      "peer": true
+-    },
+     "type-is": {
+       "version": "1.6.18",
+       "dev": true,
+Index: src/hooks/__tests__/useForceUpdate.test.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/hooks/__tests__/useForceUpdate.test.js b/src/hooks/__tests__/useForceUpdate.test.js
+new file mode 100644
+--- /dev/null	(date 1685267742516)
++++ b/src/hooks/__tests__/useForceUpdate.test.js	(date 1685267742516)
+@@ -0,0 +1,16 @@
++import { renderHook } from "@testing-library/react-hooks";
++import { useSubscribe } from "../useSubscribe";
++
++describe("useSubscribe", () => {
++    test("should call subscribers' handlers for each provided subject", () => {
++        const subject1 = { subscribe: jest.fn() };
++        const subject2 = { subscribe: jest.fn() };
++
++        const { unmount } = renderHook(() => useSubscribe(subject1, subject2));
++
++        expect(subject1.subscribe).toHaveBeenCalledWith(expect.any(Function));
++        expect(subject2.subscribe).toHaveBeenCalledWith(expect.any(Function));
++
++        unmount();
++    });
++});
+\ No newline at end of file
+Index: src/models/__tests__/GameModel.test.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/models/__tests__/GameModel.test.js b/src/models/__tests__/GameModel.test.js
+new file mode 100644
+--- /dev/null	(date 1685266171049)
++++ b/src/models/__tests__/GameModel.test.js	(date 1685266171049)
+@@ -0,0 +1,125 @@
++import {GameModel} from "../GameModel";
++
++describe('GameModel', () => {
++    test('должен быть определен', () => {
++        const gameModel = new GameModel();
++        expect(gameModel).toBeDefined();
++    });
++
++    test('должен возвращать правильный индекс последнего раунда', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        expect(gameModel.getLastRoundIndex()).toEqual(5);
++    });
++
++    test('должен возвращать текущий раунд', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        expect(gameModel.getCurrentRound()).toHaveProperty('ask');
++        expect(gameModel.getCurrentRound()).toHaveProperty('answer');
++    });
++
++    test('должен возвращать true или false, если текущий ответ правильный', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        const currentRound = gameModel.getCurrentRound();
++        currentRound.answer = currentRound.ask;
++        expect(gameModel.isTrueAnswer()).toBe(true);
++    });
++
++    test('должен изменять ответ текущего раунда', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRegionRounds();
++        const currentRound = gameModel.getCurrentRound();
++        gameModel.selectRegion('RU');
++        expect(currentRound.answer).toBe('RU');
++    });
++
++    test('должен увеличивать индекс текущего раунда на 1', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        const startingIndex = gameModel.currentRoundIndex$.get();
++        gameModel.nextRound();
++        expect(gameModel.currentRoundIndex$.get()).toEqual(startingIndex + 1);
++    });
++
++    test('должен возвращать true, если isErrorAsk$ или isSuccessAsk$ равно true', () => {
++        const gameModel = new GameModel();
++        gameModel.isErrorAsk$.set(true);
++        expect(gameModel.inRoundResult()).toBe(true);
++    });
++
++
++    test('должен генерировать раунды с странами', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        expect(gameModel.rounds$.get().length).toEqual(5);
++        const round = gameModel.rounds$.get()[0];
++        expect(round).toHaveProperty('ask');
++        expect(round).toHaveProperty('answer', null);
++    });
++
++    test('должен возвращать массив успешных раундов', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        const rounds = gameModel.rounds$.get();
++        rounds[0].answer = rounds[0].ask;
++        rounds[1].answer = rounds[1].ask;
++        rounds[2].answer = 'wrong'; // неправильный ответ
++        expect(gameModel.getSuccessRounds().length).toEqual(2);
++    });
++
++    test('должен возвращать массив ошибочных раундов', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        const rounds = gameModel.rounds$.get();
++        rounds[0].answer = rounds[0].ask;
++        rounds[1].answer = rounds[1].ask;
++        rounds[2].answer = 'wrong'; // неправильный ответ
++        expect(gameModel.getErrorRounds().length).toEqual(3);
++    });
++
++    test('не должен изменять текущий ответ, если id не указан', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRegionRounds();
++        const currentRound = gameModel.getCurrentRound();
++        const currentAnswer = currentRound.answer;
++        gameModel.selectRegion();
++        expect(currentRound.answer).toEqual(currentAnswer);
++    });
++
++    test('должен установить isFinished$ в true, если это последний раунд', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        gameModel.currentRoundIndex$.set(gameModel.getLastRoundIndex() - 1);
++        gameModel.nextRound();
++        expect(gameModel.isFinished$.get()).toEqual(true);
++    });
++
++    test('должен установить nextIsFinish$ в true, если это предпоследний раунд', () => {
++        const gameModel = new GameModel();
++        gameModel.generateRounds();
++        gameModel.currentRoundIndex$.set(gameModel.getLastRoundIndex() - 2);
++        gameModel.nextRound();
++        expect(gameModel.nextIsFinish$.get()).toEqual(true);
++    });
++
++    test('должен возвращать true, если isErrorAsk$ равен true', () => {
++        const gameModel = new GameModel();
++        gameModel.isErrorAsk$.set(true);
++        expect(gameModel.inRoundResult()).toBe(true);
++    });
++
++    test('должен возвращать true, если isSuccessAsk$ равен true', () => {
++        const gameModel = new GameModel();
++        gameModel.isSuccessAsk$.set(true);
++        expect(gameModel.inRoundResult()).toBe(true);
++    });
++
++    test('должен возвращать true, если и isErrorAsk$ и isSuccessAsk$ равны true', () => {
++        const gameModel = new GameModel();
++        gameModel.isSuccessAsk$.set(true);
++        gameModel.isErrorAsk$.set(true);
++        expect(gameModel.inRoundResult()).toBe(true);
++    });
++});
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/src/models/__tests__/SelectMapModel.test.js
+rename from .idea/.gitignore
+rename to src/models/__tests__/SelectMapModel.test.js
+--- a/.idea/.gitignore	(revision 1b330326800534aa7dcb88ba9b10ba2681876f28)
++++ b/src/models/__tests__/SelectMapModel.test.js	(date 1685269385200)
+@@ -1,0 +1,109 @@
++import { SelectMapModel } from "../SelectMapModel";
++
++describe("SelectMapModel", () => {
++  let selectMapModel;
++
++  beforeEach(() => {
++    selectMapModel = new SelectMapModel();
++  });
++
++  it("должен присвоить geoObjects полю geoObjects", () => {
++    const geoObjects = [{ id: 1 }, { id: 2 }];
++    selectMapModel.setGeoObjects(geoObjects);
++    expect(selectMapModel.geoObjects).toBe(geoObjects);
++  });
++
++  it("должен установить поле disableEvents в true", () => {
++    selectMapModel.setDisableEvents(true);
++    expect(selectMapModel.disableEvents).toBe(true);
++  });
++
++  it("должен установить поле disableEvents в false", () => {
++    selectMapModel.setDisableEvents(false);
++    expect(selectMapModel.disableEvents).toBe(false);
++  });
++
++  it("должен добавить событие mouseenter для объектов", () => {
++    const objectManager = {
++      events: {
++        add: jest.fn()
++      }
++    };
++    selectMapModel.objectManager = objectManager;
++    selectMapModel.addMouseenter();
++
++    expect(objectManager.events.add).toHaveBeenCalledWith(
++      "mouseenter",
++      expect.any(Function)
++    );
++  });
++
++  it("должен добавить событие mouseleave для объектов", () => {
++    const objectManager = {
++      events: {
++        add: jest.fn()
++      }
++    };
++    selectMapModel.objectManager = objectManager;
++    selectMapModel.addMouseleave();
++
++    expect(objectManager.events.add).toHaveBeenCalledWith(
++      "mouseleave",
++      expect.any(Function)
++    );
++  });
++
++  it("должен добавить событие click для объектов и вызвать метод selectRegion, когда оно вызывается", () => {
++    selectMapModel.selectRegion = jest.fn();
++    selectMapModel.currentRegionId$.set = jest.fn();
++    const objectManager = {
++      events: {
++        add: jest.fn()
++      },
++      get: (objectId) => {
++        return {
++          get: () => objectId
++        };
++      }
++    };
++    selectMapModel.objectManager = objectManager;
++
++    selectMapModel.addClick();
++    objectManager.events.add.mock.calls[0][1]({
++      get: () => 1
++    });
++
++    expect(objectManager.events.add).toHaveBeenCalledWith(
++      "click",
++      expect.any(Function)
++    );
++    expect(selectMapModel.selectRegion).toHaveBeenCalledWith(1);
++    expect(selectMapModel.currentRegionId$.set).toHaveBeenCalledWith(1);
++
++  });
++
++  it("не должен вызывать метод selectRegion, когда disableEvents равен true", () => {
++    selectMapModel.disableEvents = true;
++    selectMapModel.selectRegion = jest.fn();
++    selectMapModel.currentRegionId$.set = jest.fn();
++    const objectManager = {
++      events: {
++        add: jest.fn()
++      },
++      get: (objectId) => {
++        return {
++          get: () => objectId
++        };
++      }
++    };
++    selectMapModel.objectManager = objectManager;
++
++    selectMapModel.addClick();
++    objectManager.events.add.mock.calls[0][1]({
++      get: () => 1
++    });
++
++    expect(selectMapModel.selectRegion).not.toHaveBeenCalled();
++    expect(selectMapModel.currentRegionId$.set).not.toHaveBeenCalled();
++  });
++});
+diff --git a/src/models/MapBordersLoader.js b/src/models/MapBordersLoader.js
+deleted file mode 100644
