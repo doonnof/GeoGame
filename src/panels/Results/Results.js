@@ -27,7 +27,7 @@ function Results({ id, gameModel, goToPanel1, mapType }) {
         <Card mode="outline">
           <CardGrid size="l" spaced style={{ gap: 8 }}>
             <Title level="3">Результаты</Title>
-            <Counter mode="primary" style={{ padding: 8 }}>
+            <Counter mode="primary" style={{ padding: 2 }}>
               <Text weight="3">
                 {successRounds.length} из {rounds.length}
               </Text>
