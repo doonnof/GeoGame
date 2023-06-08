@@ -46,6 +46,8 @@ const Home = () => {
           id="panel3"
           gameModel={gameModel}
           goToPanel1={goToPanel1}
+          goToPanel2={goToPanel2}
+          selectMapModel={selectMapModel}
           mapType={selectMapModel.mapType}
         />
       </View>

@@ -2,8 +2,8 @@
   "name": "mini-app",
   "version": "0.0.0",
   "scripts": {
-    "start": "cross-env PORT=10888 HTTPS=true react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env  NODE_OPTIONS=--openssl-legacy-provider PORT=10888 HTTPS=true react-scripts start",
+    "build": "cross-env  NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "predeploy": "npm run build",
     "deploy": "vk-miniapps-deploy",
     "test": "react-scripts test"
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "cypress": "^12.13.0",
     "prettier": "^2.8.4",
     "react-hot-loader": "^4.13.0",
     "react-scripts": "^4.0.3",

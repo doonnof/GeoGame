@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react-hooks";
 import { useSubscribe } from "../useSubscribe";
 
 describe("useSubscribe", () => {
-    test("should call subscribers' handlers for each provided subject", () => {
+    test("Должен вызывать слушаетелей", () => {
         const subject1 = { subscribe: jest.fn() };
         const subject2 = { subscribe: jest.fn() };
 

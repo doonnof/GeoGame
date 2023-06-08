@@ -20,7 +20,7 @@ function ResultsItem({ item, mapType }) {
       disabled
       before={
         <Flag
-          iso3166={foundAnswer.iso3166}
+          iso3166={foundAsk.iso3166}
           style={{
             minWidth: 28,
             width: 28,
@@ -40,11 +40,13 @@ function ResultsItem({ item, mapType }) {
     >
       <div style={{ paddingLeft: 12 }}>
         <Text weight="2" style={{ whiteSpace: "normal" }}>
-          {foundAnswer.name}
+          {foundAsk.name}
         </Text>
         {!isSuccess && (
-          <Caption style={{ color: "var(--vkui--color_accent_green)" }}>
-            {foundAsk.name}
+          <Caption
+            style={{ color: "var(--vkui--color_background_negative--active)" }}
+          >
+            {foundAnswer.name}
           </Caption>
         )}
       </div>

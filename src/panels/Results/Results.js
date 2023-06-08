@@ -1,21 +1,37 @@
 import React from "react";
 import {
   Button,
+  ButtonGroup,
   Card,
   CardGrid,
-  Counter,
-  Div,
-  FixedLayout,
   Panel,
   PanelHeader,
+  Placeholder,
   Spacing,
-  Text,
   Title,
 } from "@vkontakte/vkui";
 
 import ResultsItem from "./ResultsItem/ResultsItem";
+import ResultIcon from "./ResultIcon";
+import {
+  Icon20ChevronLeftOutline,
+  Icon24RepeatOutline,
+} from "@vkontakte/icons";
 
-function Results({ id, gameModel, goToPanel1, mapType }) {
+function getResultText(success) {
+  if (success > 3) return "Умница! Шикарный результат!";
+  if (success > 0) return "Хороший результ! Не останаливайтесь!";
+  return "Могло быть и лучше. Попробуйте еще!";
+}
+
+function Results({
+  id,
+  gameModel,
+  goToPanel1,
+  goToPanel2,
+  mapType,
+  selectMapModel,
+}) {
   const rounds = gameModel.rounds$.get();
   const successRounds = gameModel.getSuccessRounds();
 
@@ -27,11 +43,6 @@ function Results({ id, gameModel, goToPanel1, mapType }) {
         <Card mode="outline">
           <CardGrid size="l" spaced style={{ gap: 8 }}>
             <Title level="3">Результаты</Title>
-            <Counter mode="primary" style={{ padding: 2 }}>
-              <Text weight="3">
-                {successRounds.length} из {rounds.length}
-              </Text>
-            </Counter>
           </CardGrid>
 
           {gameModel.rounds$.get().map((item) => (
@@ -39,15 +50,47 @@ function Results({ id, gameModel, goToPanel1, mapType }) {
           ))}
         </Card>
       </CardGrid>
-      <Spacing size="12px" />
+      <CardGrid size="l" spaced style={{ marginTop: 0 }}>
+        <Card mode="outline">
+          <Placeholder
+            icon={<ResultIcon success={successRounds.length} />}
+            header={`${successRounds.length} из ${rounds.length} правильных ответов`}
+            action={
+              <ButtonGroup align="center" mode="vertical">
+                <Button
+                  before={<Icon24RepeatOutline />}
+                  size="m"
+                  mode="outline"
+                  onClick={() => {
+                    const mapType = selectMapModel.mapType;
+                    const mapZoom = selectMapModel.mapZoom;
 
-      <FixedLayout vertical="bottom">
-        <Div>
-          <Button style={{ width: "100%" }} size="l" onClick={goToPanel1}>
-            Назад на главную
-          </Button>
-        </Div>
-      </FixedLayout>
+                    gameModel.construct();
+                    selectMapModel.construct();
+
+                    selectMapModel.mapType = mapType;
+                    selectMapModel.mapZoom = mapZoom;
+
+                    goToPanel2();
+                  }}
+                >
+                  Повторить игру
+                </Button>
+                <Button
+                  before={<Icon20ChevronLeftOutline />}
+                  size="m"
+                  mode="outline"
+                  onClick={goToPanel1}
+                >
+                  Назад на главную
+                </Button>
+              </ButtonGroup>
+            }
+          >
+            {getResultText(successRounds.length)}
+          </Placeholder>
+        </Card>
+      </CardGrid>
     </Panel>
   );
 }

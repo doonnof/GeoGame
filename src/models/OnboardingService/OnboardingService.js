@@ -1,5 +1,5 @@
 import bridge from "@vkontakte/vk-bridge";
-import { firstSlide, secondSlide } from "./slides.js";
+import { firstSlide, secondSlide, thirdSlide } from "./slides.js";
 
 export class OnboardingService {
   async runOnBoarding() {
@@ -13,17 +13,19 @@ export class OnboardingService {
         slides: [
           {
             title: "Добро пожаловать!",
-          },
-          {
+            subtitle: "Изучайте географию с ГеоГейм.",
             media: { blob: firstSlide, type: "image" },
-            title: "Угад",
-            subtitle:
-              "Общайтесь с ботом на любые темы, музыка, программирование, искусство.",
           },
           {
             media: { blob: secondSlide, type: "image" },
-            title: "Переводите текст, изучайте языки!",
-            subtitle: "Бот знает более 10 естественных языков!",
+            title: "Угадывайте страны!",
+            subtitle:
+              "Сможете ли вы определить на карте страну по флагу и названию?",
+          },
+          {
+            media: { blob: thirdSlide, type: "image" },
+            title: "Угадайте регионы России!",
+            subtitle: "Желаем вам удачи и полезной игры!",
           },
         ],
       })
