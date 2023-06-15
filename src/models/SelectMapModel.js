@@ -195,6 +195,7 @@ export class SelectMapModel {
     this.resetRegion(this.successId);
     this.errorMarkCoords$.set(null);
     this.successMarkCoords$.set(null);
+    this.currentRegionId$.set(null);
     this.currentRegionId = null;
   }
 

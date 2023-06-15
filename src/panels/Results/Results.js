@@ -17,6 +17,7 @@ import {
   Icon20ChevronLeftOutline,
   Icon24RepeatOutline,
 } from "@vkontakte/icons";
+import bridge from "@vkontakte/vk-bridge";
 
 function getResultText(success) {
   if (success > 3) return "Умница! Шикарный результат!";
@@ -35,6 +36,18 @@ function Results({
   const rounds = gameModel.rounds$.get();
   const successRounds = gameModel.getSuccessRounds();
 
+  const showAd = () => {
+    bridge
+      .send("VKWebAppShowNativeAds", {
+        ad_format: "interstitial" /* Тип рекламы */,
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <Panel id={id} style={{ overflow: "hidden", height: "100vh" }}>
       <PanelHeader>GeoGame</PanelHeader>
@@ -72,6 +85,8 @@ function Results({
                     selectMapModel.mapZoom = mapZoom;
 
                     goToPanel2();
+
+                    showAd();
                   }}
                 >
                   Повторить игру
@@ -80,7 +95,10 @@ function Results({
                   before={<Icon20ChevronLeftOutline />}
                   size="m"
                   mode="outline"
-                  onClick={goToPanel1}
+                  onClick={() => {
+                    goToPanel1();
+                    showAd();
+                  }}
                 >
                   Назад на главную
                 </Button>
